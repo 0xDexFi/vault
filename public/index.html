@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAULT</title>
+  <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/effects.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/loading.css">
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/editor.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+</head>
+<body>
+  <!-- PHASE 1: LOADING SCREEN -->
+  <div id="phase-loading" class="phase active">
+    <canvas id="matrix-canvas"></canvas>
+    <div id="particle-canvas-wrap">
+      <canvas id="particle-canvas"></canvas>
+    </div>
+    <div id="loading-content">
+      <div id="vault-title-wrap">
+        <h1 class="glitch" data-text="VAULT">VAULT</h1>
+      </div>
+      <div id="loading-bar-container">
+        <div id="loading-bar">
+          <div id="loading-progress"></div>
+        </div>
+        <div id="loading-percent">0%</div>
+      </div>
+      <p id="loading-status">INITIALIZING SYSTEMS...</p>
+    </div>
+  </div>
+
+  <!-- PHASE 2: LOGIN / VAULT GATE -->
+  <div id="phase-login" class="phase">
+    <canvas id="login-matrix-canvas"></canvas>
+    <div class="crt-overlay"></div>
+    <div id="login-container">
+      <div class="vault-door">
+        <div class="vault-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <circle cx="12" cy="16" r="1"/>
+          </svg>
+        </div>
+        <h2 class="terminal-text">ENTER ACCESS CODE</h2>
+        <div class="input-wrapper" id="input-wrapper">
+          <span class="prompt-symbol">&gt;_</span>
+          <input type="password" id="password-input" autocomplete="off" spellcheck="false" autofocus>
+          <span class="cursor-blink"></span>
+        </div>
+        <button id="login-btn" class="neon-btn">AUTHENTICATE</button>
+        <p id="login-error"></p>
+      </div>
+    </div>
+    <div id="white-flash"></div>
+  </div>
+
+  <!-- PHASE 3: MAIN APPLICATION -->
+  <div id="phase-app" class="phase">
+    <canvas id="app-matrix-canvas"></canvas>
+    <div class="crt-overlay crt-subtle"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="app-logo glitch-hover" data-text="VAULT">VAULT</h1>
+        <button id="new-note-btn" class="neon-btn-sm" title="New Note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          NEW
+        </button>
+      </div>
+      <div id="search-container">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="Search notes..." autocomplete="off">
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-header" id="all-notes-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>All Notes</span>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>Folders</span>
+          <button id="new-folder-btn" class="icon-btn" title="New Folder">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+        </div>
+        <nav id="folder-tree"></nav>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          <span>Tags</span>
+        </div>
+        <div id="tag-cloud"></div>
+      </div>
+      <div class="sidebar-footer">
+        <button id="logout-btn" class="ghost-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          DISCONNECT
+        </button>
+      </div>
+    </aside>
+
+    <!-- Resize handle: sidebar | notelist -->
+    <div class="resize-handle" id="resize-sidebar" title="Drag to resize or double-click to collapse">
+      <div class="resize-handle-line"></div>
+    </div>
+
+    <!-- Note List -->
+    <section id="note-list-panel">
+      <div id="note-list-header">
+        <h2 id="current-folder-name">All Notes</h2>
+        <span id="note-count"></span>
+      </div>
+      <div id="note-list"></div>
+    </section>
+
+    <!-- Resize handle: notelist | editor -->
+    <div class="resize-handle" id="resize-notelist" title="Drag to resize or double-click to collapse">
+      <div class="resize-handle-line"></div>
+    </div>
+
+    <!-- Editor -->
+    <section id="editor-panel">
+      <div id="editor-empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <p>Select a note or create a new one</p>
+      </div>
+      <div id="editor-active" class="hidden">
+        <!-- Breadcrumbs for sub-pages -->
+        <div id="breadcrumbs" class="hidden">
+          <span id="breadcrumb-list"></span>
+        </div>
+        <div id="editor-toolbar">
+          <input type="text" id="note-title-input" placeholder="Note title..." autocomplete="off" spellcheck="false">
+          <div id="editor-actions">
+            <button id="pin-btn" class="toolbar-btn" title="Pin Note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M5 12l7-10 7 10"/></svg>
+            </button>
+            <button id="delete-btn" class="toolbar-btn toolbar-btn-danger" title="Delete Note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>
+        <div id="tag-bar">
+          <div id="note-tags"></div>
+          <button id="add-tag-btn" class="tag-add-btn" title="Add Tag">+ tag</button>
+          <div id="tag-dropdown" class="hidden">
+            <input type="text" id="tag-search-input" placeholder="Search or create tag..." autocomplete="off">
+            <div id="tag-dropdown-list"></div>
+          </div>
+        </div>
+        <div id="editor-container">
+          <div id="note-editor" contenteditable="true" spellcheck="false"></div>
+        </div>
+        <div id="editor-status-bar">
+          <span id="word-count">0 words</span>
+          <span id="save-status">Ready</span>
+          <span id="last-modified"></span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Floating Toolbar -->
+  <div id="floating-toolbar" class="hidden">
+    <button class="ft-btn ft-type-btn" id="ft-type-btn">Text <span class="ft-arrow">&#9662;</span></button>
+    <span class="ft-sep"></span>
+    <button class="ft-btn" data-cmd="bold" title="Bold (Ctrl+B)"><strong>B</strong></button>
+    <button class="ft-btn" data-cmd="italic" title="Italic (Ctrl+I)"><em>I</em></button>
+    <button class="ft-btn" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+    <button class="ft-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+    <button class="ft-btn" data-cmd="code" title="Inline Code">&lt;/&gt;</button>
+    <button class="ft-btn" data-cmd="createLink" title="Link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    </button>
+    <span class="ft-sep"></span>
+    <button class="ft-btn ft-color-trigger" id="ft-text-color" title="Text Color">
+      <span class="ft-color-letter">A</span>
+      <span class="ft-color-bar" id="ft-text-color-bar"></span>
+    </button>
+    <button class="ft-btn ft-color-trigger" id="ft-bg-color" title="Background Color">
+      <span class="ft-color-letter ft-bg-letter">A</span>
+      <span class="ft-color-bar" id="ft-bg-color-bar"></span>
+    </button>
+  </div>
+
+  <!-- Block Type Picker (Turn Into menu) -->
+  <div id="type-picker" class="hidden">
+    <div class="tp-header">TURN INTO</div>
+    <div class="tp-item" data-type="p"><span class="tp-icon">T</span>Text</div>
+    <div class="tp-item" data-type="h1"><span class="tp-icon">H1</span>Heading 1</div>
+    <div class="tp-item" data-type="h2"><span class="tp-icon">H2</span>Heading 2</div>
+    <div class="tp-item" data-type="h3"><span class="tp-icon">H3</span>Heading 3</div>
+    <div class="tp-item" data-type="page"><span class="tp-icon">&#128196;</span>Page</div>
+    <div class="tp-item" data-type="ul"><span class="tp-icon">::</span>Bulleted list</div>
+    <div class="tp-item" data-type="ol"><span class="tp-icon">1.</span>Numbered list</div>
+    <div class="tp-item" data-type="todo"><span class="tp-icon">&#9744;</span>To-do list</div>
+    <div class="tp-item" data-type="toggle"><span class="tp-icon">&#9654;</span>Toggle list</div>
+    <div class="tp-item" data-type="code"><span class="tp-icon">&lt;/&gt;</span>Code</div>
+    <div class="tp-item" data-type="quote"><span class="tp-icon">&#10077;</span>Quote</div>
+    <div class="tp-item" data-type="callout"><span class="tp-icon">&#128161;</span>Callout</div>
+    <div class="tp-item" data-type="hr"><span class="tp-icon">&#8212;</span>Divider</div>
+  </div>
+
+  <!-- Slash Command Menu -->
+  <div id="slash-menu" class="hidden">
+    <div class="slash-header">BLOCKS</div>
+    <div id="slash-list">
+      <div class="slash-item" data-type="p"><span class="slash-icon">T</span><div class="slash-info"><span class="slash-label">Text</span><span class="slash-desc">Plain text</span></div></div>
+      <div class="slash-item" data-type="h1"><span class="slash-icon">H1</span><div class="slash-info"><span class="slash-label">Heading 1</span><span class="slash-desc">Large heading</span></div></div>
+      <div class="slash-item" data-type="h2"><span class="slash-icon">H2</span><div class="slash-info"><span class="slash-label">Heading 2</span><span class="slash-desc">Medium heading</span></div></div>
+      <div class="slash-item" data-type="h3"><span class="slash-icon">H3</span><div class="slash-info"><span class="slash-label">Heading 3</span><span class="slash-desc">Small heading</span></div></div>
+      <div class="slash-item" data-type="page"><span class="slash-icon">&#128196;</span><div class="slash-info"><span class="slash-label">Page</span><span class="slash-desc">Embed a sub-page</span></div></div>
+      <div class="slash-item" data-type="ul"><span class="slash-icon">::</span><div class="slash-info"><span class="slash-label">Bulleted list</span><span class="slash-desc">Unordered list</span></div></div>
+      <div class="slash-item" data-type="ol"><span class="slash-icon">1.</span><div class="slash-info"><span class="slash-label">Numbered list</span><span class="slash-desc">Ordered list</span></div></div>
+      <div class="slash-item" data-type="todo"><span class="slash-icon">&#9744;</span><div class="slash-info"><span class="slash-label">To-do list</span><span class="slash-desc">Checkbox items</span></div></div>
+      <div class="slash-item" data-type="toggle"><span class="slash-icon">&#9654;</span><div class="slash-info"><span class="slash-label">Toggle</span><span class="slash-desc">Collapsible section</span></div></div>
+      <div class="slash-item" data-type="code"><span class="slash-icon">&lt;/&gt;</span><div class="slash-info"><span class="slash-label">Code</span><span class="slash-desc">Code block</span></div></div>
+      <div class="slash-item" data-type="quote"><span class="slash-icon">&#10077;</span><div class="slash-info"><span class="slash-label">Quote</span><span class="slash-desc">Blockquote</span></div></div>
+      <div class="slash-item" data-type="callout"><span class="slash-icon">&#128161;</span><div class="slash-info"><span class="slash-label">Callout</span><span class="slash-desc">Highlighted block</span></div></div>
+      <div class="slash-item" data-type="hr"><span class="slash-icon">&#8212;</span><div class="slash-info"><span class="slash-label">Divider</span><span class="slash-desc">Horizontal line</span></div></div>
+    </div>
+  </div>
+
+  <!-- Color Picker -->
+  <div id="color-picker" class="hidden">
+    <div class="cp-section">
+      <div class="cp-label" id="cp-label">COLOR</div>
+      <div class="cp-grid" id="cp-grid"></div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirm-modal" class="modal-overlay hidden">
+    <div class="modal-box glass-panel">
+      <h3 id="confirm-title" class="glitch-hover" data-text="CONFIRM">CONFIRM</h3>
+      <p id="confirm-message"></p>
+      <div class="modal-actions">
+        <button id="confirm-cancel" class="neon-btn-sm ghost-btn">ABORT</button>
+        <button id="confirm-ok" class="neon-btn-sm danger-btn">PROCEED</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div id="context-menu" class="hidden">
+    <div class="context-item" data-action="rename">Rename</div>
+    <div class="context-item" data-action="delete">Delete</div>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

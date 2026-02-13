@@ -1,0 +1,168 @@
+/* ═══════════════════════════════════════════
+   GLITCH KEYFRAMES
+   ═══════════════════════════════════════════ */
+
+@keyframes glitch-1 {
+  0%   { clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%); transform: translate(-2px, 0); }
+  10%  { clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%); transform: translate(2px, 0); }
+  20%  { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); transform: translate(-1px, 0); }
+  30%  { clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%); transform: translate(1px, 0); }
+  40%  { clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%); transform: translate(-2px, 0); }
+  50%  { clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%); transform: translate(1px, 0); }
+  60%  { clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%); transform: translate(-1px, 0); }
+  70%  { clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%); transform: translate(2px, 0); }
+  80%  { clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%); transform: translate(-2px, 0); }
+  90%  { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); transform: translate(1px, 0); }
+  100% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); transform: translate(-1px, 0); }
+}
+
+@keyframes glitch-2 {
+  0%   { clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%); transform: translate(2px, 0); }
+  15%  { clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%); transform: translate(-2px, 0); }
+  25%  { clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%); transform: translate(1px, 0); }
+  35%  { clip-path: polygon(0 45%, 100% 45%, 100% 46%, 0 46%); transform: translate(-1px, 0); }
+  50%  { clip-path: polygon(0 60%, 100% 60%, 100% 61%, 0 61%); transform: translate(2px, 0); }
+  65%  { clip-path: polygon(0 80%, 100% 80%, 100% 81%, 0 81%); transform: translate(-2px, 0); }
+  80%  { clip-path: polygon(0 90%, 100% 90%, 100% 95%, 0 95%); transform: translate(1px, 0); }
+  100% { clip-path: polygon(0 60%, 100% 60%, 100% 65%, 0 65%); transform: translate(-1px, 0); }
+}
+
+@keyframes glitch-skew {
+  0%   { transform: skew(0deg); }
+  20%  { transform: skew(0deg); }
+  21%  { transform: skew(-0.5deg); }
+  22%  { transform: skew(0deg); }
+  60%  { transform: skew(0deg); }
+  61%  { transform: skew(0.3deg); }
+  62%  { transform: skew(0deg); }
+  100% { transform: skew(0deg); }
+}
+
+/* ═══════════════════════════════════════════
+   BLINK
+   ═══════════════════════════════════════════ */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   LOADING ANIMATIONS
+   ═══════════════════════════════════════════ */
+
+@keyframes loadingPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ═══════════════════════════════════════════
+   TRANSITIONS
+   ═══════════════════════════════════════════ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════
+   LOGIN ANIMATIONS
+   ═══════════════════════════════════════════ */
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+  20%, 40%, 60%, 80% { transform: translateX(6px); }
+}
+
+@keyframes vaultUnlock {
+  0% { transform: scale(1); opacity: 1; }
+  30% { transform: scale(1.05); }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+@keyframes whiteFlash {
+  0% { opacity: 0; }
+  30% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   NEON PULSE
+   ═══════════════════════════════════════════ */
+
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(0, 212, 255, 0.2), 0 0 10px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 25px rgba(0, 212, 255, 0.2), 0 0 50px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.6);
+  }
+}
+
+@keyframes neonPulseIntense {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 40px rgba(0, 212, 255, 0.4), 0 0 80px rgba(0, 212, 255, 0.2);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TYPEWRITER
+   ═══════════════════════════════════════════ */
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ═══════════════════════════════════════════
+   PHASE TRANSITIONS
+   ═══════════════════════════════════════════ */
+
+.phase-enter {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.phase-exit {
+  animation: fadeOut 0.4s ease forwards;
+}
+
+/* ═══════════════════════════════════════════
+   SAVE INDICATOR
+   ═══════════════════════════════════════════ */
+
+@keyframes savePulse {
+  0% { color: var(--neon-green); }
+  50% { color: var(--neon-green); text-shadow: var(--neon-green-glow); }
+  100% { color: var(--text-secondary); }
+}
+
+.save-flash {
+  animation: savePulse 1s ease forwards;
+}

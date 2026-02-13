@@ -1,0 +1,348 @@
+/* ═══════════════════════════════════════════
+   CRT SCANLINE OVERLAY
+   ═══════════════════════════════════════════ */
+
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 0, 0, 0.08) 1px,
+    rgba(0, 0, 0, 0.08) 2px
+  );
+}
+
+.crt-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+.crt-subtle {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 0, 0, 0.03) 1px,
+    rgba(0, 0, 0, 0.03) 2px
+  );
+}
+
+/* ═══════════════════════════════════════════
+   GLITCH TEXT EFFECT
+   ═══════════════════════════════════════════ */
+
+.glitch {
+  position: relative;
+  color: var(--neon-green);
+  text-shadow: var(--neon-green-glow);
+  animation: glitch-skew 4s infinite linear alternate-reverse;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  color: var(--neon-cyan);
+  animation: glitch-1 3s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  transform: translate(-2px);
+}
+
+.glitch::after {
+  color: var(--neon-purple);
+  animation: glitch-2 2.5s infinite linear alternate-reverse;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  transform: translate(2px);
+}
+
+/* Glitch on hover only */
+.glitch-hover {
+  position: relative;
+  color: var(--neon-green);
+  text-shadow: var(--neon-green-glow);
+}
+
+.glitch-hover::before,
+.glitch-hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.glitch-hover:hover::before {
+  color: var(--neon-cyan);
+  animation: glitch-1 0.3s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  transform: translate(-2px);
+  opacity: 1;
+}
+
+.glitch-hover:hover::after {
+  color: var(--neon-purple);
+  animation: glitch-2 0.25s infinite linear alternate-reverse;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  transform: translate(2px);
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   NEON GLOW UTILITIES
+   ═══════════════════════════════════════════ */
+
+.neon-text {
+  color: var(--neon-green);
+  text-shadow: var(--neon-green-glow);
+}
+
+.neon-text-cyan {
+  color: var(--neon-cyan);
+  text-shadow: var(--neon-cyan-glow);
+}
+
+.neon-border {
+  border: 1px solid var(--border-green);
+  box-shadow: var(--neon-green-glow);
+}
+
+/* ═══════════════════════════════════════════
+   GLASS PANEL
+   ═══════════════════════════════════════════ */
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+/* ═══════════════════════════════════════════
+   NEON BUTTONS
+   ═══════════════════════════════════════════ */
+
+.neon-btn {
+  padding: 10px 32px;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-btn:hover {
+  background: var(--neon-green-dim);
+  box-shadow: var(--neon-green-glow);
+  text-shadow: var(--neon-green-glow);
+}
+
+.neon-btn:active {
+  transform: scale(0.97);
+}
+
+.neon-btn-sm {
+  padding: 5px 12px;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.neon-btn-sm:hover {
+  background: var(--neon-green-dim);
+  box-shadow: var(--neon-green-glow);
+}
+
+.ghost-btn {
+  padding: 5px 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ghost-btn:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: var(--danger-dim);
+}
+
+.danger-btn {
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+}
+
+.danger-btn:hover {
+  background: var(--danger-dim) !important;
+  box-shadow: var(--danger-glow) !important;
+}
+
+.icon-btn {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  margin-left: auto;
+}
+
+.icon-btn:hover {
+  color: var(--neon-green);
+  background: var(--neon-green-dim);
+}
+
+.toolbar-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.toolbar-btn:hover {
+  color: var(--neon-green);
+  background: var(--neon-green-dim);
+}
+
+.toolbar-btn.active {
+  color: var(--neon-cyan);
+  background: var(--neon-cyan-dim);
+}
+
+.toolbar-btn-danger:hover {
+  color: var(--danger);
+  background: var(--danger-dim);
+}
+
+/* ═══════════════════════════════════════════
+   CURSOR BLINK
+   ═══════════════════════════════════════════ */
+
+.cursor-blink {
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background: var(--neon-green);
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   MODAL OVERLAY
+   ═══════════════════════════════════════════ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-box {
+  padding: 24px 32px;
+  min-width: 340px;
+  text-align: center;
+}
+
+.modal-box h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.modal-box p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ═══════════════════════════════════════════
+   CONTEXT MENU
+   ═══════════════════════════════════════════ */
+
+#context-menu {
+  position: fixed;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-green);
+  border-radius: var(--radius-sm);
+  padding: 4px 0;
+  min-width: 140px;
+  z-index: 3000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.context-item {
+  padding: 6px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.context-item:hover {
+  background: var(--neon-green-dim);
+  color: var(--neon-green);
+}
+
+.context-item[data-action="delete"]:hover {
+  background: var(--danger-dim);
+  color: var(--danger);
+}

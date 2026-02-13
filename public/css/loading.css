@@ -1,0 +1,90 @@
+#phase-loading {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+}
+
+#matrix-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#particle-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#particle-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+#loading-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+#vault-title-wrap {
+  position: relative;
+}
+
+#vault-title-wrap .glitch {
+  font-size: 6rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+#loading-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 360px;
+}
+
+#loading-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(0, 212, 255, 0.1);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+
+#loading-progress {
+  height: 100%;
+  width: 0%;
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green), 0 0 16px rgba(0, 212, 255, 0.3);
+  border-radius: 1px;
+  transition: width 0.2s ease;
+}
+
+#loading-percent {
+  font-size: 11px;
+  color: var(--neon-green);
+  font-weight: 700;
+  min-width: 36px;
+  text-align: right;
+}
+
+#loading-status {
+  font-size: 11px;
+  color: var(--neon-green);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: loadingPulse 2s ease-in-out infinite;
+  min-height: 1.6em;
+}
